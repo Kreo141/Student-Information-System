@@ -1,0 +1,89 @@
+package main;
+
+import java.util.*;
+
+import java.io.*;
+import javax.swing.*;
+
+import windows.*;
+
+
+import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+
+public class Main {
+	static File mainDIR = new File("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\");
+	static File file_studentInformation = new File(mainDIR, "studentInformations.txt");	
+	
+	static Utility util = new Utility();
+	
+	public static boolean authenticateUser(String username, String password) {
+		String loginAs = loginUser.loginRole;
+		FileOperations f;
+		
+		if(loginAs.equals("user")) {
+			f = new FileOperations("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\studentAccountCreds.txt");			
+		}else if(loginAs.equals("admin")){
+			f = new FileOperations("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\adminAccountCreds.txt");
+		} else {
+			return false;
+		}
+		
+		// Store account credentials to 2d Array
+		final String[][] credentials = f.to2dArray(2, "₷", "₪");
+		TwoDArrayOperations<String> credentialsOps = new TwoDArrayOperations<>(credentials);
+		
+		// Find account
+		int index = credentialsOps.findInColumn(username, 0);
+		if(index == -1) {
+			return false;
+		}
+		
+		// Verify login
+		if(util.verifyPassword(password, credentials[index][1])) {
+			System.out.println("Login succesfuly for user: " + username);
+			return true;
+		}else {
+			System.out.println("Login failed for user: " + username);
+			return false;
+		}
+	}
+	
+	
+	static LoginUser loginUser = new LoginUser();
+	public static void main(String[] args) {
+		loginUser.setVisible(true);
+
+		loginUser.loginBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String username = loginUser.usernameField.getText();
+				String password =  new String(loginUser.pwField.getPassword()).trim();
+				
+				// No operation if one of the fields are empty
+				if(username.isEmpty() || password.isEmpty()) {
+					return;
+				}
+				
+				boolean isAuthenticated = authenticateUser(username, password);
+				
+				if(isAuthenticated) {
+					AdminWindow adminWindow = new AdminWindow(loginUser.themeMode, username);
+					loginUser.dispose();
+					
+					try {Thread.sleep(1000);} catch (InterruptedException ie) {ie.printStackTrace();}
+					
+					adminWindow.setVisible(isAuthenticated);
+				} else {
+					JDialog dialog = new JDialog(loginUser, "Alert", true);
+					dialog.setSize(220, 100);
+					dialog.add(new JLabel("Incorrect username or password"));
+					dialog.setLocationRelativeTo(null);
+					dialog.setVisible(true);
+				}
+			}
+		});
+	}
+
+}
