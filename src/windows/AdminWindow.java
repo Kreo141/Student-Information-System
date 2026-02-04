@@ -43,6 +43,9 @@ public class AdminWindow extends JFrame{
 			northPanel.add(innerNorthPanelLeft, BorderLayout.WEST);
 		}
 		
+		{// Center Panel 
+			
+		}
 		
 		add(northPanel, BorderLayout.NORTH);
 		add(centerPanel, BorderLayout.CENTER);
