@@ -13,8 +13,6 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class Main {
-	static File mainDIR = new File("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\");
-	static File file_studentInformation = new File(mainDIR, "studentInformations.txt");	
 	
 	static Utility util = new Utility();
 	
@@ -23,10 +21,10 @@ public class Main {
 		FileOperations f;
 		
 		if(loginAs.equals("user")) {
-			f = new FileOperations("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\studentAccountCreds.txt");			
+			f = new FileOperations(ApplicationConfig.studentAccountCreds);			
 		}else if(loginAs.equals("admin")){
-			f = new FileOperations("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\adminCreds.txt");
-		} else if((new File("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\studentAccountCreds.txt")).exists() || (new File("E:\\ChromeDownload\\SCHOOL FILES\\studentInformationSystem\\adminCreds.txt")).exists()) {
+			f = new FileOperations(ApplicationConfig.adminCreds);
+		} else if((new File(ApplicationConfig.studentAccountCreds)).exists() || (new File(ApplicationConfig.adminCreds)).exists()) {
 			System.out.println("Credential files not initialized");
 			return false;
 		} else {
