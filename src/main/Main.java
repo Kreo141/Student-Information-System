@@ -6,6 +6,7 @@ import java.io.*;
 import javax.swing.*;
 
 import windows.*;
+import functions.*;
 
 
 import java.awt.*;
@@ -14,7 +15,7 @@ import java.awt.event.ActionListener;
 
 public class Main {
 	
-	static Utility util = new Utility();
+	static Password ops_password = new Password();
 	
 	public static boolean authenticateUser(String username, String password) {
 		String loginAs = loginUser.loginRole;
@@ -42,7 +43,7 @@ public class Main {
 		}
 		
 		// Verify login
-		if(util.verifyPassword(password, credentials[index][1])) {
+		if(ops_password.verifyPassword(password, credentials[index][1])) {
 			System.out.println("Login succesfuly for user: " + username);
 			return true;
 		}else {

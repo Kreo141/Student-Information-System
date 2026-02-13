@@ -1,4 +1,4 @@
-package main;
+package functions;
 
 public class TwoDArrayOperations<T> {
 	private T[][] array;

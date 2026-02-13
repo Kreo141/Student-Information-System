@@ -5,25 +5,30 @@ import javax.swing.JTable;
 import javax.swing.table.DefaultTableModel;
 
 public class StudentTableComponent extends JScrollPane{
+	
+	private JTable studentTable;
+	private DefaultTableModel studentTM;
+	
 	public StudentTableComponent(String[][] students) {
-		DefaultTableModel studentTM = new DefaultTableModel();
+		studentTM = new DefaultTableModel();
 		studentTM.addColumn("ID");
 		studentTM.addColumn("Name");
 		studentTM.addColumn("Email");
 		
-		for(int i = 0; i < students.length; i++) {
-			Object[] studentInfo = new Object[students[i].length];
-			
-			for(int x = 0; x < studentInfo.length; x++) {
-				studentInfo[x] = students[i][x];
-			}
-			
-			System.out.println(studentInfo[0] + " " + studentInfo[1] + " " + studentInfo[2]);
-			studentTM.addRow(studentInfo);
-		}
+        for(int i = 0; i < students.length; i++) {
+            studentTM.addRow(students[i]);
+        }
 		
-		JTable studentTable = new JTable(studentTM);
+		studentTable = new JTable(studentTM);
 		
 		setViewportView(studentTable);
+	}
+	
+	public JTable getTable() {
+		return studentTable;
+	}
+	
+	public DefaultTableModel getModel() {
+		return studentTM;
 	}
 }

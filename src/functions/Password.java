@@ -1,4 +1,4 @@
-package main;
+package functions;
 
 import java.security.SecureRandom;
 import java.util.Base64;
@@ -6,7 +6,7 @@ import java.util.Base64;
 import javax.crypto.SecretKeyFactory;
 import javax.crypto.spec.PBEKeySpec;
 
-public class Utility {
+public class Password {
 	// PASSWORD HASHER
     private static final int SALT_LENGTH = 16;
     private static final int ITERATIONS = 65536;

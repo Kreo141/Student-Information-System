@@ -1,4 +1,4 @@
-package main;
+package dump;
 
 import java.awt.*;
 import java.awt.event.ComponentAdapter;
