@@ -5,9 +5,11 @@ import functions.FileOperations;
 
 public class StudentOperation {
 	private Student[] students; 
+	FileOperations ops_nextId;
 	
 	public StudentOperation(){
 		FileOperations ops_studentInformation = new FileOperations(ApplicationConfig.studentInformation);
+		ops_nextId = new FileOperations(ApplicationConfig.nextID);
 		
 		String[][] s = ops_studentInformation.to2dArray(5, "\\|", "&&");
 		students = new Student[s.length];
@@ -42,7 +44,14 @@ public class StudentOperation {
 	}
 	
 	public void register(String name, String email, String program, String year) {
+		String nextId = ops_nextId.getString()[1];
+		
 		FileOperations fos_Student = new FileOperations(ApplicationConfig.studentInformation);
-		fos_Student.newLine("&&", String.format("%s|%s|%s|%s|%s|", "000000", name, email, program, year));
+		fos_Student.newLine("&&", String.format("%s|%s|%s|%s|%s|", nextId, name, email, program, year));
+		
+		int nextNextId = Integer.parseInt(nextId) + 1;
+		nextId = String.format("%06d", nextNextId);
+		
+		ops_nextId.newData(nextId);
 	}
 }

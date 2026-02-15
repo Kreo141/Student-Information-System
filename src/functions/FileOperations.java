@@ -69,8 +69,17 @@ public class FileOperations {
 	public void newLine(String separator, String data) {
 		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))){
 			writer.write(separator + "\n" + data);
+			writer.close();
 		}catch(IOException e) {
 			
+		}
+	}
+	
+	public void newData(String data) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName))){
+			writer.write(data);
+		}catch(IOException e) {
+			System.out.println(e.getMessage());
 		}
 	}
 }
