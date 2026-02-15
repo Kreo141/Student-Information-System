@@ -1,8 +1,10 @@
 package functions;
 
 import java.io.BufferedReader;
+import java.io.BufferedWriter;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileOperations {
@@ -62,5 +64,13 @@ public class FileOperations {
 		}
 		
 		return result;
+	}
+	
+	public void newLine(String separator, String data) {
+		try (BufferedWriter writer = new BufferedWriter(new FileWriter(fileName, true))){
+			writer.write(separator + "\n" + data);
+		}catch(IOException e) {
+			
+		}
 	}
 }

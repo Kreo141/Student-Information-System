@@ -18,6 +18,7 @@ public class Main {
 	static Password ops_password = new Password();
 	
 	public static boolean authenticateUser(String username, String password) {
+		
 		String loginAs = loginUser.loginRole;
 		FileOperations f;
 		

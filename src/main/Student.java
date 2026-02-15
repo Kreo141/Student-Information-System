@@ -7,9 +7,9 @@ public class Student {
 	private String program;
 	private String yearLevel;
 	
-	Student(String studentName, String ID, String email, String program, String yearLevel){
-		this.studentName = studentName;
+	public Student(String ID, String studentName, String email, String program, String yearLevel){
 		this.ID = ID;
+		this.studentName = studentName;
 		this.email = email;
 		this.program = program;
 		this.yearLevel = yearLevel;
