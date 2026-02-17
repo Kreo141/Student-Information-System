@@ -32,7 +32,7 @@ public class FileOperations {
 			
 			reader.close();
 		}catch(IOException e) {
-			System.out.println();
+			System.out.println(e);
 		}	
 		
 		return new String[] {

@@ -107,14 +107,15 @@ public class AdminWindow extends JFrame {
 
         JPanel innerLeftCenterPanel = new JPanel();
         JPanel innerRightCenterPanel = new JPanel();
-
-            DrawImagePanel image = new DrawImagePanel();
-
-            JLabel nameLabel = new JLabel("Null, Null N.");
-            JLabel idLabel = new JLabel("569784");
-            JLabel emailLabel = new JLabel("null@example.coms");
-            JLabel programLabel = new JLabel("NULL");
-            JLabel yearLabel = new JLabel("NULL");
+            JPanel topPanel = new JPanel(new BorderLayout(40, 0));
+            	DrawImagePanel image = new DrawImagePanel("src/assets/defaultPfp.jpg");
+            JPanel botPanel = new JPanel(new GridBagLayout());
+	            JLabel nameLabel = new JLabel("Null, Null N.");
+	            JLabel idLabel = new JLabel("569784");
+	            JLabel emailLabel = new JLabel("null@example.coms");
+	            JLabel collegeLabel = new JLabel("NULL");
+	            JLabel programLabel = new JLabel("NULL");
+	            JLabel yearLabel = new JLabel("NULL");
 
         JSplitPane centerPanelSplit = new JSplitPane(
                 JSplitPane.HORIZONTAL_SPLIT,
@@ -220,6 +221,7 @@ public class AdminWindow extends JFrame {
         	        ops_Student.register(
     	                nameField.getText(),
     	                emailField.getText(),
+    	                collegeCMB.getSelectedItem().toString(),
     	                programCMB.getSelectedItem().toString(),
     	                yearLevelCMB.getSelectedItem().toString()
         	        );
@@ -317,8 +319,18 @@ public class AdminWindow extends JFrame {
 	            	    idLabel.setText(id);
 	            	    nameLabel.setText(student.getStudentName());
 	            	    emailLabel.setText(student.getEmail());
+	            	    collegeLabel.setText(student.getCollege());
 	            	    programLabel.setText(student.getProgram());
 	            	    yearLabel.setText(student.getYearLevel());
+	            	    
+	            	    image = new DrawImagePanel(ApplicationConfig.photosDIR + id +".jpg");
+	            	    
+	            	    topPanel.removeAll();
+	            	    
+	            	    topPanel.add(image, BorderLayout.WEST);
+	            	    
+	            	    topPanel.revalidate();
+	            	    topPanel.repaint();
 	            	}
 	
 	            }
@@ -336,7 +348,6 @@ public class AdminWindow extends JFrame {
 
             // -------- TOP PANEL --------
             {
-                JPanel topPanel = new JPanel(new BorderLayout(40, 0));
                 topPanel.setOpaque(false);
 
                 topPanel.add(image, BorderLayout.WEST);
@@ -346,7 +357,6 @@ public class AdminWindow extends JFrame {
 
             // -------- BOTTOM PANEL --------
             {
-                JPanel botPanel = new JPanel(new GridBagLayout());
 
                 GridBagConstraints gbc = new GridBagConstraints();
                 gbc.anchor = GridBagConstraints.NORTHWEST;
@@ -371,14 +381,20 @@ public class AdminWindow extends JFrame {
 
                 gbc.gridx = 1;
                 botPanel.add(emailLabel, gbc);
-
+                
                 gbc.gridx = 0; gbc.gridy = 3;
+                botPanel.add(new JLabel("College: "), gbc);
+
+                gbc.gridx = 1;
+                botPanel.add(collegeLabel, gbc);
+
+                gbc.gridx = 0; gbc.gridy = 4;
                 botPanel.add(new JLabel("Program: "), gbc);
 
                 gbc.gridx = 1;
                 botPanel.add(programLabel, gbc);
 
-                gbc.gridx = 0; gbc.gridy = 4;
+                gbc.gridx = 0; gbc.gridy = 5;
                 botPanel.add(new JLabel("Year: "), gbc);
 
                 gbc.gridx = 1;
@@ -415,15 +431,19 @@ public class AdminWindow extends JFrame {
 // IMAGE PANEL
 // =========================================================
 class DrawImagePanel extends JPanel {
-    Image img = new ImageIcon("E:\\ChromeDownload\\SCHOOL FILES\\images.png").getImage();
+    Image img;
 
-    public DrawImagePanel() {
+    public DrawImagePanel(String source) {
+        img = new ImageIcon(source).getImage();
         setPreferredSize(new Dimension(180, 180));
     }
 
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
-        g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+
+        if (img != null) {
+            g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
+        }
     }
 }

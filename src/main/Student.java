@@ -4,13 +4,15 @@ public class Student {
 	private String studentName;
 	private String ID;
 	private String email;
+	private String college;
 	private String program;
 	private String yearLevel;
 	
-	public Student(String ID, String studentName, String email, String program, String yearLevel){
+	public Student(String ID, String studentName, String email, String college, String program, String yearLevel){
 		this.ID = ID;
 		this.studentName = studentName;
 		this.email = email;
+		this.college = college;
 		this.program = program;
 		this.yearLevel = yearLevel;
 	}
@@ -37,6 +39,14 @@ public class Student {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+	
+	public String getCollege() {
+		return college;
+	}
+	
+	public void setCollege(String college) {
+		this.college = college;
 	}
 
 	public String getProgram() {

@@ -53,9 +53,43 @@ public class Main {
 		}
 	}
 	
+	public static boolean initFiles() {
+		try {
+			File infoFile = new File(ApplicationConfig.adminCreds);
+			if(!infoFile.exists()) {
+				infoFile.createNewFile();
+				FileWriter writer = new FileWriter(infoFile);
+				writer.write("admin₷" + ops_password.hashPassword(ApplicationConfig.getAdminDefaultPassword()));
+				writer.close();
+			} 
+			
+			infoFile = new File(ApplicationConfig.studentAccountCreds);
+			if(!infoFile.exists()) {
+				infoFile.createNewFile();
+			} 
+			
+			infoFile = new File(ApplicationConfig.studentInformation);
+			if(!infoFile.exists()) {
+				infoFile.createNewFile();
+			} 
+			
+			infoFile = new File(ApplicationConfig.nextID);
+			if(!infoFile.exists()) {
+				infoFile.createNewFile();
+				FileWriter writer = new FileWriter(infoFile);
+				writer.write("000001");
+				writer.close();
+			} 
+			
+		}catch(IOException e) {
+			
+		}
+		return true;
+	}
 	
 	static LoginUser loginUser = new LoginUser();
 	public static void main(String[] args) {
+		initFiles();
 		// Developing AdminWindow
 		AdminWindow adminWindow = new AdminWindow(loginUser.themeMode, "admin1");
 		adminWindow.setVisible(true);
