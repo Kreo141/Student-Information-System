@@ -3,10 +3,16 @@ package windows;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.awt.event.MouseListener;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.StandardCopyOption;
 import java.util.regex.Pattern;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+import javax.swing.filechooser.FileNameExtensionFilter;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.table.TableRowSorter;
 
@@ -17,6 +23,8 @@ import functions.FileOperations;
 import functions.StudentOperation;
 
 public class AdminWindow extends JFrame {
+	
+	String idSelected;
 	
 	String[] umindanaoColleges = {
 		    "College of Accounting Education",
@@ -108,10 +116,10 @@ public class AdminWindow extends JFrame {
         JPanel innerLeftCenterPanel = new JPanel();
         JPanel innerRightCenterPanel = new JPanel();
             JPanel topPanel = new JPanel(new BorderLayout(40, 0));
-            	DrawImagePanel image = new DrawImagePanel("src/assets/defaultPfp.jpg");
+            	DrawImagePanel image = new DrawImagePanel(ApplicationConfig.defaultPfp);
             JPanel botPanel = new JPanel(new GridBagLayout());
 	            JLabel nameLabel = new JLabel("Null, Null N.");
-	            JLabel idLabel = new JLabel("569784");
+	            JLabel idLabel = new JLabel("000000");
 	            JLabel emailLabel = new JLabel("null@example.coms");
 	            JLabel collegeLabel = new JLabel("NULL");
 	            JLabel programLabel = new JLabel("NULL");
@@ -309,28 +317,21 @@ public class AdminWindow extends JFrame {
 	            	    int modelRow = studentTable.getTable()
 	            	                               .convertRowIndexToModel(viewRow);
 	
-	            	    String id = studentTable.getTable()
+	            	    idSelected = studentTable.getTable()
 	            	                            .getModel()
 	            	                            .getValueAt(modelRow, 0)
 	            	                            .toString();
 	
-	            	    Student student = ops_Student.search(id);
+	            	    Student student = ops_Student.search(idSelected);
 	
-	            	    idLabel.setText(id);
+	            	    idLabel.setText(idSelected);
 	            	    nameLabel.setText(student.getStudentName());
 	            	    emailLabel.setText(student.getEmail());
 	            	    collegeLabel.setText(student.getCollege());
 	            	    programLabel.setText(student.getProgram());
 	            	    yearLabel.setText(student.getYearLevel());
-	            	    
-	            	    image = new DrawImagePanel(ApplicationConfig.photosDIR + id +".jpg");
-	            	    
-	            	    topPanel.removeAll();
-	            	    
-	            	    topPanel.add(image, BorderLayout.WEST);
-	            	    
-	            	    topPanel.revalidate();
-	            	    topPanel.repaint();
+
+	            	    image.setImage(ApplicationConfig.photosDIR + idSelected +".jpg");
 	            	}
 	
 	            }
@@ -349,6 +350,46 @@ public class AdminWindow extends JFrame {
             // -------- TOP PANEL --------
             {
                 topPanel.setOpaque(false);
+
+                image.addMouseListener(new MouseAdapter() {
+                    @Override
+                    public void mouseEntered(MouseEvent e){
+                        image.setImage(ApplicationConfig.editIcon);
+                        System.out.println("Hovered");
+                    }
+
+                    @Override
+                    public void mouseExited(MouseEvent e){
+                        image.setImage(ApplicationConfig.photosDIR + idSelected + ".jpg");
+                        System.out.println("Exited");
+                    }
+                    
+                    @Override
+                    public void mouseClicked(MouseEvent e) {
+                    	 JFileChooser pfpChooser = new JFileChooser();
+                    	 pfpChooser.setFileFilter(new FileNameExtensionFilter("Images", "png", "jpg", "jpeg"));
+                    	 
+                    	 int result = pfpChooser.showOpenDialog(null);
+                    	 
+                    	 if(result == JFileChooser.APPROVE_OPTION) {
+                    		 File imageSelected = pfpChooser.getSelectedFile();
+                    		 
+                    		 File moveImageLocation = new File(ApplicationConfig.photosDIR + idSelected + ".jpg");
+                    		 
+
+                    		 try {
+								Files.move(
+								         imageSelected.toPath(),
+								         moveImageLocation.toPath(),
+								         StandardCopyOption.REPLACE_EXISTING
+								 );
+							} catch (IOException eee) {
+								eee.printStackTrace();
+							}
+
+                    	 }
+                    }
+                });
 
                 topPanel.add(image, BorderLayout.WEST);
 
@@ -431,10 +472,11 @@ public class AdminWindow extends JFrame {
 // IMAGE PANEL
 // =========================================================
 class DrawImagePanel extends JPanel {
-    Image img;
+
+    private Image img;
 
     public DrawImagePanel(String source) {
-        img = new ImageIcon(source).getImage();
+        setImage(source);   // reuse same logic
         setPreferredSize(new Dimension(180, 180));
     }
 
@@ -445,5 +487,17 @@ class DrawImagePanel extends JPanel {
         if (img != null) {
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
         }
+    }
+
+    public void setImage(String source) {
+
+        File imageFile = new File(source);
+
+        if (!imageFile.exists()) {
+            source = ApplicationConfig.defaultPfp;
+        }
+
+        this.img = new ImageIcon(source).getImage();
+        repaint();
     }
 }

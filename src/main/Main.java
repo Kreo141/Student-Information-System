@@ -91,44 +91,44 @@ public class Main {
 	public static void main(String[] args) {
 		initFiles();
 		// Developing AdminWindow
-		AdminWindow adminWindow = new AdminWindow(loginUser.themeMode, "admin1");
-		adminWindow.setVisible(true);
-//		loginUser.setVisible(true);
-//
-//		loginUser.loginBtn.addActionListener(new ActionListener() {
-//			@Override
-//			public void actionPerformed(ActionEvent e) {
-//				String username = loginUser.usernameField.getText();
-//				String password =  new String(loginUser.pwField.getPassword()).trim();
-//				
-//				// No operation if one of the fields are empty
-//				if(username.isEmpty() || password.isEmpty()) {
-//					return;
-//				}
-//				
-//				boolean isAuthenticated = authenticateUser(username, password);
-//				
-//				if(isAuthenticated) {
-//					String loginAs = loginUser.loginRole;
-//					if(loginAs.equals("user")) {
-//						
-//					}else if(loginAs.equals("admin")) {
-//						AdminWindow adminWindow = new AdminWindow(loginUser.themeMode, username);
-//						loginUser.dispose();
-//						try {Thread.sleep(1000);} catch (InterruptedException ie) {ie.printStackTrace();}
-//						adminWindow.setVisible(isAuthenticated);						
-//					}
-//					
-//					
-//				} else {
-//					JDialog dialog = new JDialog(loginUser, "Alert", true);
-//					dialog.setSize(220, 100);
-//					dialog.add(new JLabel("Incorrect username or password"));
-//					dialog.setLocationRelativeTo(null);
-//					dialog.setVisible(true);
-//				}
-//			}
-//		});
+//		AdminWindow adminWindow = new AdminWindow(loginUser.themeMode, "admin1");
+//		adminWindow.setVisible(true);
+		loginUser.setVisible(true);
+
+		loginUser.loginBtn.addActionListener(new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				String username = loginUser.usernameField.getText();
+				String password =  new String(loginUser.pwField.getPassword()).trim();
+				
+				// No operation if one of the fields are empty
+				if(username.isEmpty() || password.isEmpty()) {
+					return;
+				}
+				
+				boolean isAuthenticated = authenticateUser(username, password);
+				
+				if(isAuthenticated) {
+					String loginAs = loginUser.loginRole;
+					if(loginAs.equals("user")) {
+						
+					}else if(loginAs.equals("admin")) {
+						AdminWindow adminWindow = new AdminWindow(loginUser.themeMode, username);
+						loginUser.dispose();
+						try {Thread.sleep(1000);} catch (InterruptedException ie) {ie.printStackTrace();}
+						adminWindow.setVisible(isAuthenticated);						
+					}
+					
+					
+				} else {
+					JDialog dialog = new JDialog(loginUser, "Alert", true);
+					dialog.setSize(220, 100);
+					dialog.add(new JLabel("Incorrect username or password"));
+					dialog.setLocationRelativeTo(null);
+					dialog.setVisible(true);
+				}
+			}
+		});
 	}
 
 }
